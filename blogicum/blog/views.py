@@ -9,7 +9,7 @@ from .forms import PostForm, ProfileEditForm, CommentForm
 
 
 def comments_counted(posts):
-  return posts.annotate(comment_count=Count('comments')).order_by('-pub_date')
+  return posts.annotate(comment_count=Count('comments'))
 
 
 def get_posts(post_objects, is_owner=False):
@@ -21,7 +21,7 @@ def get_posts(post_objects, is_owner=False):
             is_published=True,
             category__is_published=True
         )
-    return comments_counted(posts)
+    return comments_counted(posts).order_by('-pub_date')
 
 
 def get_paginator(request, items, num=10):
